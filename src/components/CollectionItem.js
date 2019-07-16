@@ -22,7 +22,7 @@ const ImgWrapper = styled.div`
   width: 100%;
   display: block;
   border-radius: 4px;
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
   overflow: hidden;
   img {
     width: 100%;
@@ -30,24 +30,27 @@ const ImgWrapper = styled.div`
   }
 `;
 const Body = styled.div`
-  margin-top: 2em;
-  padding: 4px;
+  padding: 2px;
 `;
 const Row = styled.div`
-  margin-top: 1em;
-  margin-bottom: 1em;
+  font-size: 0.75em;
   display: flex;
   justify-content: space-between;
   color: gray;
 `;
 const Title = styled.h2`
   font-weight: 400;
+  margin-top: .5em;
+  margin-bottom: .5em;
 `;
 const Content = styled.p`
   color: gray;
   line-height: 1.5;
+  margin: 0;
 `;
-const Control = styled.div``;
+const Control = styled.div`
+  margin-top: 0.5em;
+`;
 
 const CollectionItem = ({ fav }) => {
   return (

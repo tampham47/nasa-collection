@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const Header = styled.header`
   margin-top: 6em;
-  margin-bottom: 6em;
+  margin-bottom: 5em;
 `;
 const HeaderWrp = styled.header`
   display: flex;
@@ -28,6 +28,7 @@ const HeaderWrp = styled.header`
 `;
 const Title = styled.h1`
   flex: auto;
+  line-height: 1.2em;
   font-size: 4em;
   color: gray;
   margin: 0;
