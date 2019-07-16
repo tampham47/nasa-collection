@@ -4,6 +4,7 @@
   "description": "The Minimal React Webpack Babel Setup for personal use.",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --ext .jsx,.js ./src",
     "start": "webpack-dev-server --progress --colors --hot --config ./webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,11 +20,27 @@
       "@babel/preset-react"
     ]
   },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
+    "eslint": "^6.0.1",
+    "eslint-plugin-react": "^7.14.2",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.2.0",
     "react-hot-loader": "^4.12.6",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.6",
