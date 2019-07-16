@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 
-import CollectionItem from './CollectionItem';
-import Button from './Button';
+import CollectionItem from '../components/CollectionItem';
+import Button from '../components/Button';
 import AddIcon from '../icons/add.svg';
-
-const GlobalStyle = createGlobalStyle`
-  html {
-    font-family: 'Roboto', sans-serif;
-  }
-`;
 
 const Container = styled.div`
   width: calc(100% - 2em);
@@ -47,11 +41,10 @@ const Footer = styled.footer`
   color: gray;
 `;
 
-export default class App extends Component {
+export default class Home extends React.PureComponent {
   render() {
     return (
       <>
-        <GlobalStyle />
         <Header>
           <Container>
             <HeaderWrp>
