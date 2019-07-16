@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import ActionButton from './ActionButton';
+
 import HeartStrokeIcon from '../icons/heart.svg';
 import HeartFilledIcon from '../icons/heart-filled.svg';
 import PenIcon from '../icons/pen.svg';
@@ -46,24 +48,6 @@ const Content = styled.p`
   line-height: 1.5;
 `;
 const Control = styled.div``;
-const Button = styled.button`
-  width: 44px;
-  height: 44px;
-  margin-right: 1em;
-  border-radius: 4px;
-  background-color: white;
-  cursor: pointer;
-  fill: rgba(0,0,0,0.5);
-  svg {
-    vertical-align: middle;
-  }
-  &:last-child {
-    margin-right: 0;
-  }
-  & .red {
-    fill: #E54D42;
-  }
-`;
 
 const CollectionItem = ({ fav }) => {
   return (
@@ -82,11 +66,11 @@ const CollectionItem = ({ fav }) => {
         <Title>Eclipse over the gulf of Poets</Title>
         <Content>Occaecat et nulla velit sit ea mollit mollit aliquip. Aliquip labore aliquip eu voluptate Lorem fugiat velit irure voluptate.</Content>
         <Control>
-          <Button>
+          <ActionButton>
             {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
-          </Button>
-          <Button><BinIcon /></Button>
-          <Button><PenIcon /></Button>
+          </ActionButton>
+          <ActionButton><BinIcon /></ActionButton>
+          <ActionButton><PenIcon /></ActionButton>
         </Control>
       </Body>
     </Item>
