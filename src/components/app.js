@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import CollectionItem from './CollectionItem';
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    font-family: 'Roboto', sans-serif;
+  }
+`;
 
 const Container = styled.div`
   width: calc(100% - 2em);
@@ -10,8 +16,8 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  margin-top: 4em;
-  margin-bottom: 4em;
+  margin-top: 6em;
+  margin-bottom: 6em;
 `;
 const HeaderWrp = styled.header`
   display: flex;
@@ -19,6 +25,8 @@ const HeaderWrp = styled.header`
 `;
 const Title = styled.h1`
   flex: auto;
+  font-size: 4em;
+  color: gray;
   margin: 0;
 `;
 const Button = styled.button`
@@ -45,13 +53,14 @@ const Footer = styled.footer`
   margin-top: 8em;
   margin-bottom: 1em;
   text-align: center;
-  opacity: 0.8;
+  color: gray;
 `;
 
 export default class App extends Component {
   render() {
     return (
       <>
+        <GlobalStyle />
         <Header>
           <Container>
             <HeaderWrp>
