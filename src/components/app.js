@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import CollectionItem from './CollectionItem';
+import AddIcon from '../icons/add.svg';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -31,12 +32,17 @@ const Title = styled.h1`
 `;
 const Button = styled.button`
   background-color: rgba(119, 77, 188, 1);
-  color: white;
-  padding: 0.8em 2em;
+  padding: 8px 16px 8px 12px;
   border: 0;
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
+  color: white;
+  fill: white;
+  svg {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
   &:focus {
     outline: 6px solid rgba(119, 77, 188, 0.5);
     outline-offset: -4px;
@@ -65,7 +71,9 @@ export default class App extends Component {
           <Container>
             <HeaderWrp>
               <Title>NASA Collection</Title>
-              <Button>Add new item</Button>
+              <Button>
+                <AddIcon />Add new item
+              </Button>
             </HeaderWrp>
           </Container>
         </Header>
@@ -73,7 +81,7 @@ export default class App extends Component {
         <Body>
           <Container>
             <List>
-              <CollectionItem />
+              <CollectionItem fav />
               <CollectionItem />
               <CollectionItem />
               <CollectionItem />

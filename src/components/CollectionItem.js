@@ -1,5 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+import HeartStrokeIcon from '../icons/heart.svg';
+import HeartFilledIcon from '../icons/heart-filled.svg';
+import PenIcon from '../icons/pen.svg';
+import BinIcon from '../icons/trash-bin.svg';
 
 const Item = styled.div`
   display: inline-block;
@@ -23,6 +29,7 @@ const ImgWrapper = styled.div`
 `;
 const Body = styled.div`
   margin-top: 2em;
+  padding: 4px;
 `;
 const Row = styled.div`
   margin-top: 1em;
@@ -40,18 +47,25 @@ const Content = styled.p`
 `;
 const Control = styled.div``;
 const Button = styled.button`
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   margin-right: 1em;
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
+  fill: rgba(0,0,0,0.5);
+  svg {
+    vertical-align: middle;
+  }
   &:last-child {
     margin-right: 0;
   }
+  & .red {
+    fill: #E54D42;
+  }
 `;
 
-const CollectionItem = () => {
+const CollectionItem = ({ fav }) => {
   return (
     <Item>
       <ImgWrapper>
@@ -68,13 +82,19 @@ const CollectionItem = () => {
         <Title>Eclipse over the gulf of Poets</Title>
         <Content>Occaecat et nulla velit sit ea mollit mollit aliquip. Aliquip labore aliquip eu voluptate Lorem fugiat velit irure voluptate.</Content>
         <Control>
-          <Button>A</Button>
-          <Button>B</Button>
-          <Button>C</Button>
+          <Button>
+            {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
+          </Button>
+          <Button><BinIcon /></Button>
+          <Button><PenIcon /></Button>
         </Control>
       </Body>
     </Item>
   )
+};
+
+CollectionItem.propTypes = {
+  fav: PropTypes.bool,
 };
 
 export default CollectionItem;

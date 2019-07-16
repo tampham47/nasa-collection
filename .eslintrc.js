@@ -11,6 +11,8 @@ module.exports = {
   globals: {
     __DEV__: true,
     FB: true,
+    module: true,
+    __dirname: true,
   },
 
   env: {

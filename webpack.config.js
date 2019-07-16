@@ -9,8 +9,11 @@ module.exports = {
       test: /\.(js|jsx|mjs)$/,
       exclude: /node_modules/,
       use: 'babel-loader'
-    }]
-  },
+    }, {
+      test: /\.svg$/,
+      use: '@svgr/webpack',
+    },
+  ]},
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
