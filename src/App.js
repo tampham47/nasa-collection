@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-family: 'Roboto', sans-serif;
   }
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export default class App extends Component {
@@ -17,7 +20,7 @@ export default class App extends Component {
       <Router>
         <GlobalStyle />
         <Route path="/" exact component={Home} />
-        <Route path="/search" component={Search} />
+        <Route path="/nasa-search" component={Search} />
       </Router>
     )
   }

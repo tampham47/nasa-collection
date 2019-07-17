@@ -2,15 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import CollectionItem from '../components/CollectionItem';
-import Button from '../components/Button';
+import { Link } from '../components/Button';
+import Container from '../components/Container';
 import AddIcon from '../icons/add.svg';
-
-const Container = styled.div`
-  width: calc(100% - 2em);
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 75em;
-`;
 
 const Header = styled.header`
   margin-top: 6em;
@@ -49,9 +43,9 @@ export default class Home extends React.PureComponent {
           <Container>
             <HeaderWrp>
               <Title>NASA Collection</Title>
-              <Button>
+              <Link to="/nasa-search">
                 <AddIcon />Add new item
-              </Button>
+              </Link>
             </HeaderWrp>
           </Container>
         </Header>

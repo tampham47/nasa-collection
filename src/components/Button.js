@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link as RouterLink } from 'react-router-dom';
 
-const Button = styled.button`
+const SharedButton = `
   background-color: #784CC0;
   padding: 8px 16px 8px 12px;
   border: 0;
@@ -15,7 +14,7 @@ const Button = styled.button`
   fill: white;
   outline: none;
   letter-spacing: 0.11px;
-  height: 35px;
+  text-decoration: none;
   svg {
     margin: -2px;
     margin-right: 8px;
@@ -29,14 +28,15 @@ const Button = styled.button`
   }
 `;
 
-const ButtonComponent = ({ children }) => {
-  return (
-    <Button>{children}</Button>
-  );
-};
+const Button = styled.button`
+  ${SharedButton}
+`;
 
-ButtonComponent.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+const Link = styled(RouterLink)`
+  ${SharedButton}
+`;
 
-export default ButtonComponent;
+export {
+  Link,
+  Button
+};
