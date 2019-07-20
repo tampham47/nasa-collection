@@ -9,12 +9,15 @@ const Button = styled.button`
   border-radius: 3px;
   background-color: white;
   cursor: pointer;
-  border: 1px solid rgb(206, 206, 210, 0.4);
+  border-width: ${props => props.noBorder ? '0' : '1px'};
+  border-style: solid;
+  border-color: rgb(206, 206, 210, 0.4);
   fill: #CECED2;
   svg {
     vertical-align: middle;
   }
-  &:last-child {
+
+  &:last-of-type {
     margin-right: 0;
   }
   &:hover {
@@ -32,9 +35,9 @@ const Button = styled.button`
   }
 `;
 
-const ActionButton = ({ children }) => {
+const ActionButton = ({ children, ...props }) => {
   return (
-    <Button>{children}</Button>
+    <Button {...props}>{children}</Button>
   );
 };
 

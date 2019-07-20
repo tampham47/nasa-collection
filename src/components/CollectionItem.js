@@ -52,7 +52,7 @@ const Control = styled.div`
   margin-top: 0.5em;
 `;
 
-const CollectionItem = ({ fav }) => {
+const CollectionItem = ({ fav, onEdit }) => {
   return (
     <Item>
       <ImgWrapper>
@@ -73,7 +73,7 @@ const CollectionItem = ({ fav }) => {
             {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
           </ActionButton>
           <ActionButton><BinIcon /></ActionButton>
-          <ActionButton><PenIcon /></ActionButton>
+          <ActionButton onClick={onEdit}><PenIcon /></ActionButton>
         </Control>
       </Body>
     </Item>
@@ -82,6 +82,7 @@ const CollectionItem = ({ fav }) => {
 
 CollectionItem.propTypes = {
   fav: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default CollectionItem;
