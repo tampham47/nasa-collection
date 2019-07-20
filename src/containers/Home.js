@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CollectionItem from '../components/CollectionItem';
 import { Link, Button } from '../components/Button';
 import Container from '../components/Container';
+import InputText from '../components/InputText';
 import Modal, { ModalHeader, ModalFooter, ModalBody } from '../components/Modal';
 
 import AddIcon from '../icons/add.svg';
@@ -24,13 +25,11 @@ const Title = styled.h1`
   color: gray;
   margin: 0;
 `;
-
 const Body = styled.main``;
 const List = styled.div`
   margin-left: -1em;
   margin-right: -1em;
 `;
-
 const Footer = styled.footer`
   margin-top: 8em;
   margin-bottom: 1em;
@@ -43,7 +42,7 @@ export default class Home extends React.PureComponent {
     super(props);
 
     this.state = {
-      modalContent: null,
+      modalContent: 1,
     };
 
     this.setModalContent = this.setModalContent.bind(this);
@@ -87,9 +86,15 @@ export default class Home extends React.PureComponent {
         {modalContent && (
           <Modal onClose={this.unsetModalContent}>
             <ModalHeader>Edit</ModalHeader>
+
             <ModalBody>
-              <p>Esse sunt incididunt dolore commodo eu proident exercitation. Aliqua tempor eu esse enim et quis quis duis nulla. Duis labore aute duis magna elit consequat exercitation quis elit. Ad reprehenderit ut irure proident ut laboris amet enim in et. Fugiat proident proident minim nulla nulla sit cillum. Adipisicing voluptate quis id eu nulla qui eu anim excepteur consectetur velit ex ut. Enim aliquip nulla irure mollit.</p>
+              <InputText title="Title" />
+              <InputText title="Description" longText />
+              <InputText title="Type" />
+              <InputText title="Link preview image url" required />
+              <InputText title="Link file url" required />
             </ModalBody>
+
             <ModalFooter>
               <Button><CheckIcon/> Save</Button>
             </ModalFooter>
