@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import CollectionStorage from '../CollectionStorage';
 import CollectionItem from '../components/CollectionItem';
 import { Link, Button } from '../components/Button';
 import Container from '../components/Container';
@@ -42,22 +43,38 @@ export default class Home extends React.PureComponent {
     super(props);
 
     this.state = {
-      modalContent: 1,
+      modalContent: null,
+      collection: CollectionStorage.list(),
     };
 
     this.setModalContent = this.setModalContent.bind(this);
     this.unsetModalContent = this.unsetModalContent.bind(this);
+    this.updateItem = this.updateItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
   }
 
-  setModalContent() {
-    this.setState({ modalContent: 1 });
+  setModalContent(value) {
+    this.setState({ modalContent: value });
+  }
+  updateItem() {
+    const item = this.state.modalContent;
+    CollectionStorage.updateItemById(item.id, item);
+    this.setState({
+      collection: CollectionStorage.list(),
+    });
   }
   unsetModalContent() {
     this.setState({ modalContent: null });
   }
+  removeItem(item) {
+    CollectionStorage.removeItemById(item.id);
+    this.setState({
+      collection: CollectionStorage.list(),
+    });
+  }
 
   render() {
-    const { modalContent } = this.state;
+    const { modalContent, collection } = this.state;
 
     return (
       <>
@@ -75,11 +92,18 @@ export default class Home extends React.PureComponent {
         <Body>
           <Container>
             <List>
-              <CollectionItem fav onEdit={this.setModalContent} />
-              <CollectionItem onEdit={this.setModalContent} />
-              <CollectionItem onEdit={this.setModalContent} />
-              <CollectionItem onEdit={this.setModalContent} />
+              {collection.map((i) => (
+                <CollectionItem
+                  key={i.id}
+                  model={i}
+                  onEdit={this.setModalContent}
+                  onRemove={this.removeItem}
+                />
+              ))}
             </List>
+            {!collection.length && (
+              <p>There are no collections yet, let find one!</p>
+            )}
           </Container>
         </Body>
 
@@ -88,11 +112,29 @@ export default class Home extends React.PureComponent {
             <ModalHeader>Edit</ModalHeader>
 
             <ModalBody>
-              <InputText title="Title" />
-              <InputText title="Description" longText />
-              <InputText title="Type" />
-              <InputText title="Link preview image url" required />
-              <InputText title="Link file url" required />
+              <InputText
+                title="Title"
+                value={modalContent.title}
+              />
+              <InputText
+                longText
+                title="Description"
+                value={modalContent.description}
+              />
+              <InputText
+                title="Type"
+                value={modalContent.media_type}
+              />
+              <InputText
+                required
+                title="Link preview image url"
+                value={modalContent.previewImg}
+              />
+              <InputText
+                required
+                title="Link file url"
+                value={modalContent.assetURL}
+              />
             </ModalBody>
 
             <ModalFooter>

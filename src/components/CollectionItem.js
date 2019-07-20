@@ -8,6 +8,7 @@ import HeartStrokeIcon from '../icons/heart.svg';
 import HeartFilledIcon from '../icons/heart-filled.svg';
 import PenIcon from '../icons/pen.svg';
 import BinIcon from '../icons/trash-bin.svg';
+import AddIcon from '../icons/add.svg';
 
 const Item = styled.div`
   display: inline-block;
@@ -31,6 +32,8 @@ const ImgWrapper = styled.div`
 `;
 const Body = styled.div`
   padding: 2px;
+  height: 200px;
+  position: relative;
 `;
 const Row = styled.div`
   font-size: 0.75em;
@@ -50,31 +53,63 @@ const Content = styled.p`
 `;
 const Control = styled.div`
   margin-top: 0.5em;
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  padding-top: 1em;
+`;
+const AddToBtn = styled(ActionButton)`
+  width: calc(100% - 2px);
+  text-align: center;
+  position: relative;
+  svg {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
 `;
 
-const CollectionItem = ({ fav, onEdit }) => {
+
+const CollectionItem = ({ model, fav, onEdit, onAdd, onRemove }) => {
+  const onAddLocal = () => onAdd(model);
+  const onRemoveLocal = () => onRemove(model);
+  const onEditLocal = () => onEdit(model);
+
   return (
     <Item>
       <ImgWrapper>
         <img
-          src="http://www.accudata.com/smartdata/wp-content/uploads/2013/10/img-7-1.jpg"
-          alt="smart data"
+          src={model.previewImg}
+          alt={model.title}
         />
       </ImgWrapper>
       <Body>
         <Row>
-          <span>Paolo Lazzatorii</span>
-          <span>12 Feb, 2018</span>
+          <span>{model.center}</span>
+          <span>{model.date_created}</span>
         </Row>
-        <Title>Eclipse over the gulf of Poets</Title>
-        <Content>Occaecat et nulla velit sit ea mollit mollit aliquip. Aliquip labore aliquip eu voluptate Lorem fugiat velit irure voluptate.</Content>
-        <Control>
-          <ActionButton>
-            {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
-          </ActionButton>
-          <ActionButton><BinIcon /></ActionButton>
-          <ActionButton onClick={onEdit}><PenIcon /></ActionButton>
-        </Control>
+        <Title>{model.title}</Title>
+        <Content>{model.description}</Content>
+        {onAdd ? (
+          <Control>
+            <AddToBtn onClick={onAddLocal}>
+              <AddIcon/> Add to NASA collection
+            </AddToBtn>
+          </Control>
+        ) : (
+          <Control>
+            <ActionButton>
+              {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
+            </ActionButton>
+            <ActionButton onClick={onRemoveLocal}>
+              <BinIcon />
+            </ActionButton>
+            <ActionButton onClick={onEditLocal}>
+              <PenIcon />
+            </ActionButton>
+          </Control>
+        )}
       </Body>
     </Item>
   )
@@ -82,7 +117,16 @@ const CollectionItem = ({ fav, onEdit }) => {
 
 CollectionItem.propTypes = {
   fav: PropTypes.bool,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+  onAdd: PropTypes.func,
+  onRemove: PropTypes.func,
+  model: PropTypes.shape({
+    previewImg: PropTypes.string,
+    title: PropTypes.string,
+    date_created: PropTypes.string,
+    center: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
 };
 
 export default CollectionItem;

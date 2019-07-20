@@ -70,7 +70,7 @@ const TextArea = styled.div`
   }
 `;
 
-const InputText = ({ title, required, longText, ...props }) => {
+const InputText = ({ title, required, longText, value, ...props }) => {
   const id =`inputtext-${Math.random() * 1000}`;
   return (
     <Main htmlFor={id}>
@@ -79,9 +79,12 @@ const InputText = ({ title, required, longText, ...props }) => {
         {required && <span>*</span>}
       </Label>
       {!longText ? (
-        <Input {...props} />
+        <Input {...props} value={value} />
       ) : (
-        <TextArea contentEditable {...props} />
+        <TextArea contentEditable
+          {...props}
+          dangerouslySetInnerHTML={{ __html: value }}
+        />
       )}
     </Main>
   );
@@ -91,6 +94,7 @@ InputText.propTypes = {
   title: PropTypes.string.isRequired,
   longText: PropTypes.bool,
   required: PropTypes.bool,
+  value: PropTypes.string,
 };
 
 export default InputText;

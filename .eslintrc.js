@@ -59,6 +59,9 @@ module.exports = {
 
     'no-underscore-dangle': 'off',
     'arrow-body-style': 'off',
+
+    'react/jsx-max-props-per-line': [1, { "when": "multiline" }],
+    'react/jsx-indent-props': [2, 2],
   },
 
   settings: {
