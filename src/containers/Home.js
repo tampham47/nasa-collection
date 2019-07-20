@@ -43,28 +43,40 @@ export default class Home extends React.PureComponent {
     super(props);
 
     this.state = {
-      modalContent: null,
+      edtItem: null,
       collection: CollectionStorage.list(),
     };
 
-    this.setModalContent = this.setModalContent.bind(this);
-    this.unsetModalContent = this.unsetModalContent.bind(this);
+    this.setEditingItem = this.setEditingItem.bind(this);
+    this.unsetEditingItem = this.unsetEditingItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.toggleFavItem = this.toggleFavItem.bind(this);
+
+    this.handleChangingTitle = this.handleChangingTitle.bind(this);
+    this.handleChangingDesc = this.handleChangingDesc.bind(this);
+    this.handleChangingType = this.handleChangingType.bind(this);
+    this.handleChangingPreviewImg = this.handleChangingPreviewImg.bind(this);
+    this.handleChangingAssetUrl = this.handleChangingAssetUrl.bind(this);
+
   }
 
-  setModalContent(value) {
-    this.setState({ modalContent: value });
+  setEditingItem(value) {
+    const t = {
+      ...value,
+      descriptionInit: value.description,
+    }
+    this.setState({ edtItem: t });
   }
-  unsetModalContent() {
-    this.setState({ modalContent: null });
+  unsetEditingItem() {
+    this.setState({ edtItem: null });
   }
   updateItem() {
-    const item = this.state.modalContent;
+    const item = this.state.edtItem;
     CollectionStorage.updateItemById(item.id, item);
     this.setState({
       collection: CollectionStorage.list(),
+      edtItem: null,
     });
   }
   toggleFavItem(item) {
@@ -84,8 +96,54 @@ export default class Home extends React.PureComponent {
     });
   }
 
+  handleChangingTitle(e) {
+    const { value } = e.target;
+    this.setState({
+      edtItem: {
+        ...this.state.edtItem,
+        title: value,
+      },
+    });
+  }
+  handleChangingDesc(e) {
+    const { value } = e.target;
+    this.setState({
+      edtItem: {
+        ...this.state.edtItem,
+        description: value,
+      },
+    });
+  }
+  handleChangingType(e) {
+    const { value } = e.target;
+    this.setState({
+      edtItem: {
+        ...this.state.edtItem,
+        type: value,
+      },
+    });
+  }
+  handleChangingPreviewImg(e) {
+    const { value } = e.target;
+    this.setState({
+      edtItem: {
+        ...this.state.edtItem,
+        previewImg: value,
+      },
+    });
+  }
+  handleChangingAssetUrl(e) {
+    const { value } = e.target;
+    this.setState({
+      edtItem: {
+        ...this.state.edtItem,
+        assetURL: value,
+      },
+    });
+  }
+
   render() {
-    const { modalContent, collection } = this.state;
+    const { edtItem, collection } = this.state;
 
     return (
       <>
@@ -107,7 +165,7 @@ export default class Home extends React.PureComponent {
                 <CollectionItem
                   key={i.id}
                   model={i}
-                  onEdit={this.setModalContent}
+                  onEdit={this.setEditingItem}
                   onRemove={this.removeItem}
                   onToggleFav={this.toggleFavItem}
                 />
@@ -119,38 +177,43 @@ export default class Home extends React.PureComponent {
           </Container>
         </Body>
 
-        {modalContent && (
-          <Modal onClose={this.unsetModalContent}>
+        {edtItem && (
+          <Modal onClose={this.unsetEditingItem}>
             <ModalHeader>Edit</ModalHeader>
 
             <ModalBody>
               <InputText
                 title="Title"
-                value={modalContent.title}
-              />
+                value={edtItem.title}
+                onChange={this.handleChangingTitle}
+                />
               <InputText
                 longText
                 title="Description"
-                value={modalContent.description}
-              />
+                value={edtItem.descriptionInit}
+                onChange={this.handleChangingDesc}
+                />
               <InputText
                 title="Type"
-                value={modalContent.media_type}
-              />
+                value={edtItem.type}
+                onChange={this.handleChangingType}
+                />
               <InputText
                 required
                 title="Link preview image url"
-                value={modalContent.previewImg}
-              />
+                value={edtItem.previewImg}
+                onChange={this.handleChangingPreviewImg}
+                />
               <InputText
                 required
                 title="Link file url"
-                value={modalContent.assetURL}
+                value={edtItem.assetURL}
+                onChange={this.handleChangingAssetUrl}
               />
             </ModalBody>
 
             <ModalFooter>
-              <Button><CheckIcon/> Save</Button>
+              <Button onClick={this.updateItem}><CheckIcon/> Save</Button>
             </ModalFooter>
           </Modal>
         )}

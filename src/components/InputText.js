@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Main = styled.label`
+const Main = styled.div`
   display: block;
   margin-bottom: 30px;
   min-height: 56px;
@@ -12,7 +12,7 @@ const Main = styled.label`
   padding-left: 0;
   position: relative;
 `;
-const Label = styled.div`
+const Label = styled.label`
   position: absolute;
   top: 8px;
   left: 10px;
@@ -70,31 +70,60 @@ const TextArea = styled.div`
   }
 `;
 
-const InputText = ({ title, required, longText, value, ...props }) => {
-  const id =`inputtext-${Math.random() * 1000}`;
-  return (
-    <Main htmlFor={id}>
-      <Label>
-        <label>{title}</label>
-        {required && <span>*</span>}
-      </Label>
-      {!longText ? (
-        <Input {...props} value={value} />
-      ) : (
-        <TextArea contentEditable
-          {...props}
-          dangerouslySetInnerHTML={{ __html: value }}
-        />
-      )}
-    </Main>
-  );
+class InputText extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.setNode = this.setNode.bind(this);
+    this.emitChange = this.emitChange.bind(this);
+  }
+
+  setNode(node) {
+    this.refNode = node;
+  }
+
+  emitChange() {
+    const value = this.refNode.innerHTML;
+    if (this.props.onChange && value !== this.lastHtml) {
+      this.props.onChange({
+        target: { value },
+      });
+    }
+    this.lastHtml = value;
+  }
+
+  render() {
+    const { title, required, longText, value, onChange, ...props } = this.props;
+
+    return (
+      <Main>
+        <Label>
+          <label>{title}</label>
+          {required && <span>*</span>}
+        </Label>
+        {!longText ? (
+          <Input {...props} value={value} onChange={onChange} />
+        ) : (
+          <TextArea contentEditable
+            {...props}
+            ref={this.setNode}
+            dangerouslySetInnerHTML={{ __html: value }}
+            onChange={onChange}
+            onInput={this.emitChange}
+            onBlur={this.emitChange}
+          />
+        )}
+      </Main>
+    );
+  }
 }
 
 InputText.propTypes = {
   title: PropTypes.string.isRequired,
   longText: PropTypes.bool,
   required: PropTypes.bool,
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default InputText;

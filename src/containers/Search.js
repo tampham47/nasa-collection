@@ -50,6 +50,7 @@ const nomalizeCollection = (list) => {
     ...i.data[0],
     id: i.data[0].nasa_id,
     previewImg: i.links[0].href,
+    type: i.data[0].media_type,
   })).slice(0, 24);
 }
 
