@@ -29,8 +29,8 @@ const Wrapper = styled.div`
 
 const CloseButton = styled(ActionButton)`
   position: absolute;
-  right: 2px;
-  top: 2px;
+  right: 4px;
+  top: 4px;
 `;
 
 const ModalHeader = styled.h2`

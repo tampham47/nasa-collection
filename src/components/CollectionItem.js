@@ -31,7 +31,6 @@ const ImgWrapper = styled.div`
   }
 `;
 const Body = styled.div`
-  padding: 2px;
   height: 200px;
   position: relative;
 `;
@@ -60,7 +59,7 @@ const Control = styled.div`
   padding-top: 1em;
 `;
 const AddToBtn = styled(ActionButton)`
-  width: calc(100% - 2px);
+  width: calc(100% - 4px);
   text-align: center;
   position: relative;
   svg {
@@ -71,10 +70,11 @@ const AddToBtn = styled(ActionButton)`
 `;
 
 
-const CollectionItem = ({ model, fav, onEdit, onAdd, onRemove }) => {
+const CollectionItem = ({ model, onAdd, onToggleFav, onRemove, onEdit }) => {
   const onAddLocal = () => onAdd(model);
   const onRemoveLocal = () => onRemove(model);
   const onEditLocal = () => onEdit(model);
+  const onToggleFavLocal = () => onToggleFav(model);
 
   return (
     <Item>
@@ -99,8 +99,8 @@ const CollectionItem = ({ model, fav, onEdit, onAdd, onRemove }) => {
           </Control>
         ) : (
           <Control>
-            <ActionButton>
-              {fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
+            <ActionButton onClick={onToggleFavLocal}>
+              {model.fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
             </ActionButton>
             <ActionButton onClick={onRemoveLocal}>
               <BinIcon />
@@ -116,11 +116,12 @@ const CollectionItem = ({ model, fav, onEdit, onAdd, onRemove }) => {
 };
 
 CollectionItem.propTypes = {
-  fav: PropTypes.bool,
   onEdit: PropTypes.func,
   onAdd: PropTypes.func,
   onRemove: PropTypes.func,
+  onToggleFav: PropTypes.func,
   model: PropTypes.shape({
+    fav: PropTypes.bool,
     previewImg: PropTypes.string,
     title: PropTypes.string,
     date_created: PropTypes.string,

@@ -51,10 +51,14 @@ export default class Home extends React.PureComponent {
     this.unsetModalContent = this.unsetModalContent.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.toggleFavItem = this.toggleFavItem.bind(this);
   }
 
   setModalContent(value) {
     this.setState({ modalContent: value });
+  }
+  unsetModalContent() {
+    this.setState({ modalContent: null });
   }
   updateItem() {
     const item = this.state.modalContent;
@@ -63,8 +67,15 @@ export default class Home extends React.PureComponent {
       collection: CollectionStorage.list(),
     });
   }
-  unsetModalContent() {
-    this.setState({ modalContent: null });
+  toggleFavItem(item) {
+    const newItem = {
+      ...item,
+      fav: !item.fav,
+    };
+    CollectionStorage.updateItemById(newItem.id, newItem);
+    this.setState({
+      collection: CollectionStorage.list(),
+    });
   }
   removeItem(item) {
     CollectionStorage.removeItemById(item.id);
@@ -98,6 +109,7 @@ export default class Home extends React.PureComponent {
                   model={i}
                   onEdit={this.setModalContent}
                   onRemove={this.removeItem}
+                  onToggleFav={this.toggleFavItem}
                 />
               ))}
             </List>

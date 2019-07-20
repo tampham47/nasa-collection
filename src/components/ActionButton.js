@@ -13,6 +13,7 @@ const Button = styled.button`
   border-style: solid;
   border-color: rgb(206, 206, 210, 0.4);
   fill: #CECED2;
+  outline: none;
   svg {
     vertical-align: middle;
   }
@@ -20,7 +21,8 @@ const Button = styled.button`
   &:last-of-type {
     margin-right: 0;
   }
-  &:hover {
+  &:hover,
+  &:focus {
     border-color: rgb(206, 206, 210, 1);
     svg {
       fill: rgba(0,0,0,0.9);
