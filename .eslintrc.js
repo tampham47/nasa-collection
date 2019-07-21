@@ -10,9 +10,11 @@ module.exports = {
 
   globals: {
     __DEV__: true,
+    __dirname: true,
     FB: true,
     module: true,
-    __dirname: true,
+    require: true,
+    process: true,
   },
 
   env: {
