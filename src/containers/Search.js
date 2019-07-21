@@ -56,6 +56,11 @@ const nomalizeCollection = (list) => {
   })).slice(0, 24);
 }
 
+const checkInArray = (arrayOfId, id) => {
+  return arrayOfId.indexOf(id) >= 0;
+};
+const getListOfId = array => array.map(i => i.id);
+
 export default class Search extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -63,6 +68,7 @@ export default class Search extends React.PureComponent {
     this.state = {
       searchQuery: '',
       collection: [],
+      arrayOfId: getListOfId(CollectionStorage.list()),
     };
 
     this.search = this.search.bind(this);
@@ -78,6 +84,10 @@ export default class Search extends React.PureComponent {
           assetURL: body.href,
         };
         CollectionStorage.add(newCollection);
+
+        this.setState({
+          arrayOfId: getListOfId(CollectionStorage.list()),
+        })
       });
   }
 
@@ -107,7 +117,7 @@ export default class Search extends React.PureComponent {
   }
 
   render() {
-    const { collection } = this.state;
+    const { collection, arrayOfId } = this.state;
 
     return (
       <Main>
@@ -122,7 +132,12 @@ export default class Search extends React.PureComponent {
           </form>
           <List>
             {collection.map((i, index) => (
-              <CollectionItem key={index} model={i} onAdd={this.addAnItemToCollection} />
+              <CollectionItem
+                key={index}
+                model={i}
+                isAdded={checkInArray(arrayOfId, i.id)}
+                onAdd={this.addAnItemToCollection}
+              />
             ))}
           </List>
         </Container>

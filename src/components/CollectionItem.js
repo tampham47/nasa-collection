@@ -10,6 +10,7 @@ import HeartFilledIcon from '../icons/heart-filled.svg';
 import PenIcon from '../icons/pen.svg';
 import BinIcon from '../icons/trash-bin.svg';
 import AddIcon from '../icons/add.svg';
+import CheckIcon from '../icons/check.svg';
 
 const Item = styled.div`
   display: inline-block;
@@ -156,7 +157,7 @@ class CollectionItem extends React.PureComponent {
   }
 
   render() {
-    const { model, onAdd } = this.props;
+    const { model, onAdd, isAdded } = this.props;
     const { active } = this.state;
 
     return (
@@ -179,7 +180,15 @@ class CollectionItem extends React.PureComponent {
           {onAdd ? (
             <Control>
               <AddToBtn onClick={this.onAddLocal}>
-                <AddIcon/> Add to NASA collection
+                {!isAdded ? (
+                  <span>
+                    <AddIcon/> Add to NASA collection
+                  </span>
+                ) : (
+                  <span>
+                    <CheckIcon className="green" /> Added
+                  </span>
+                )}
               </AddToBtn>
             </Control>
           ) : (
@@ -219,6 +228,7 @@ CollectionItem.propTypes = {
   onAdd: PropTypes.func,
   onRemove: PropTypes.func,
   onToggleFav: PropTypes.func,
+  isAdded: PropTypes.bool,
   model: PropTypes.shape({
     fav: PropTypes.bool,
     previewImg: PropTypes.string,

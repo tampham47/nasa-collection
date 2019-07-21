@@ -30,10 +30,16 @@ const Button = styled.button`
     .red {
       fill: #E54D42;
     }
+    .green {
+      fill: green;
+    }
   }
 
   & .red {
     fill: #E54D42;
+  }
+  & .green {
+    fill: green;
   }
 `;
 
