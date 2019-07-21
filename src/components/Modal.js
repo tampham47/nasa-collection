@@ -17,7 +17,7 @@ const Main = styled.div`
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: calc(100% - 2em);
