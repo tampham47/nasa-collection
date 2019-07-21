@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import ActionButton from './ActionButton';
+import Modal from './Modal';
 
 import HeartStrokeIcon from '../icons/heart.svg';
 import HeartFilledIcon from '../icons/heart-filled.svg';
@@ -18,6 +19,31 @@ const Item = styled.div`
   margin-right: 1em;
   overflow: hidden;
 `;
+const ImgShadow = styled.div`
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background-color: black;
+    opacity: 0.6;
+    bottom: -8px;
+    filter: blur(10px);
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    transition: all 0.3s;
+  }
+
+  &:hover {
+    &:after {
+      opacity: 0.8;
+      bottom: -8px;
+    }
+  }
+`;
 const ImgWrapper = styled.div`
   height: 200px;
   width: 100%;
@@ -25,6 +51,8 @@ const ImgWrapper = styled.div`
   border-radius: 4px;
   margin-bottom: 1.5em;
   overflow: hidden;
+  cursor: pointer;
+
   img {
     width: 100%;
     display: block;
@@ -68,52 +96,115 @@ const AddToBtn = styled(ActionButton)`
     top: 10px;
   }
 `;
+const IMG = styled.img`
+  min-width: 200px;
+`;
+const Video = styled.video`
+  outline: none;
+  width: 100%;
+`;
 
+class CollectionItem extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-const CollectionItem = ({ model, onAdd, onToggleFav, onRemove, onEdit }) => {
-  const onAddLocal = () => onAdd(model);
-  const onRemoveLocal = () => onRemove(model);
-  const onEditLocal = () => onEdit(model);
-  const onToggleFavLocal = () => onToggleFav(model);
+    this.state = {
+      active: false,
+    };
 
-  return (
-    <Item>
-      <ImgWrapper>
-        <img
-          src={model.previewImg}
-          alt={model.title}
-        />
-      </ImgWrapper>
-      <Body>
-        <Row>
-          <span>{model.center}</span>
-          <span>{model.date_created}</span>
-        </Row>
-        <Title>{model.title}</Title>
-        <Content>{model.description}</Content>
-        {onAdd ? (
-          <Control>
-            <AddToBtn onClick={onAddLocal}>
-              <AddIcon/> Add to NASA collection
-            </AddToBtn>
-          </Control>
-        ) : (
-          <Control>
-            <ActionButton onClick={onToggleFavLocal}>
-              {model.fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
-            </ActionButton>
-            <ActionButton onClick={onRemoveLocal}>
-              <BinIcon />
-            </ActionButton>
-            <ActionButton onClick={onEditLocal}>
-              <PenIcon />
-            </ActionButton>
-          </Control>
+    this.onAddLocal = this.onAddLocal.bind(this);
+    this.onRemoveLocal = this.onRemoveLocal.bind(this);
+    this.onEditLocal = this.onEditLocal.bind(this);
+    this.onToggleFavLocal = this.onToggleFavLocal.bind(this);
+    this.openView = this.openView.bind(this);
+    this.closeView = this.closeView.bind(this);
+  }
+
+  onAddLocal() {
+    const { model } = this.props;
+    this.props.onAdd(model);
+  }
+  onRemoveLocal() {
+    const { model } = this.props;
+    this.props.onRemove(model);
+  }
+  onEditLocal() {
+    const { model } = this.props;
+    this.props.onEdit(model);
+  }
+  onToggleFavLocal() {
+    const { model } = this.props;
+    this.props.onToggleFav(model);
+  }
+  openView() {
+    this.setState({
+      active: true,
+    });
+  }
+  closeView() {
+    this.setState({
+      active: false,
+    });
+  }
+
+  render() {
+    const { model, onAdd } = this.props;
+    const { active } = this.state;
+
+    return (
+      <Item>
+        <ImgShadow>
+          <ImgWrapper onClick={this.openView}>
+            <img
+              src={model.previewImg}
+              alt={model.title}
+            />
+          </ImgWrapper>
+        </ImgShadow>
+        <Body>
+          <Row>
+            <span>{model.center}</span>
+            <span>{model.date_created}</span>
+          </Row>
+          <Title>{model.title}</Title>
+          <Content>{model.description}</Content>
+          {onAdd ? (
+            <Control>
+              <AddToBtn onClick={this.onAddLocal}>
+                <AddIcon/> Add to NASA collection
+              </AddToBtn>
+            </Control>
+          ) : (
+            <Control>
+              <ActionButton onClick={this.onToggleFavLocal}>
+                {model.fav ? <HeartFilledIcon className="red" /> : <HeartStrokeIcon />}
+              </ActionButton>
+              <ActionButton onClick={this.onRemoveLocal}>
+                <BinIcon />
+              </ActionButton>
+              <ActionButton onClick={this.onEditLocal}>
+                <PenIcon />
+              </ActionButton>
+            </Control>
+          )}
+        </Body>
+
+        {active && (
+          <Modal onClose={this.closeView}>
+            {model.type === 'video' ? (
+              <Video width="100%" controls autoPlay>
+                <source src={model.assetURL} type="video/mp4" />
+                Your browser does not support the video tag.
+              </Video>
+            ) : (
+              <IMG src={model.assetURL} alt={model.title} />
+            )}
+          </Modal>
         )}
-      </Body>
-    </Item>
-  )
-};
+      </Item>
+    )
+  }
+}
 
 CollectionItem.propTypes = {
   onEdit: PropTypes.func,
@@ -127,6 +218,8 @@ CollectionItem.propTypes = {
     date_created: PropTypes.string,
     center: PropTypes.string,
     description: PropTypes.string,
+    type: PropTypes.string,
+    assetURL: PropTypes.string,
   }).isRequired,
 };
 

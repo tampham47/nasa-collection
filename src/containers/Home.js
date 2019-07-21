@@ -6,7 +6,7 @@ import CollectionItem from '../components/CollectionItem';
 import { Link, Button } from '../components/Button';
 import Container from '../components/Container';
 import InputText from '../components/InputText';
-import Modal, { ModalHeader, ModalFooter, ModalBody } from '../components/Modal';
+import Modal, { ModalHeader, ModalFooter, ModalBody, ModalContent } from '../components/Modal';
 
 import AddIcon from '../icons/add.svg';
 import CheckIcon from '../icons/check.svg';
@@ -179,42 +179,43 @@ export default class Home extends React.PureComponent {
 
         {edtItem && (
           <Modal onClose={this.unsetEditingItem}>
-            <ModalHeader>Edit</ModalHeader>
+            <ModalContent>
+              <ModalHeader>Edit</ModalHeader>
+              <ModalBody>
+                <InputText
+                  title="Title"
+                  value={edtItem.title}
+                  onChange={this.handleChangingTitle}
+                  />
+                <InputText
+                  longText
+                  title="Description"
+                  value={edtItem.descriptionInit}
+                  onChange={this.handleChangingDesc}
+                  />
+                <InputText
+                  title="Type"
+                  value={edtItem.type}
+                  onChange={this.handleChangingType}
+                  />
+                <InputText
+                  required
+                  title="Link preview image url"
+                  value={edtItem.previewImg}
+                  onChange={this.handleChangingPreviewImg}
+                  />
+                <InputText
+                  required
+                  title="Link file url"
+                  value={edtItem.assetURL}
+                  onChange={this.handleChangingAssetUrl}
+                />
+              </ModalBody>
 
-            <ModalBody>
-              <InputText
-                title="Title"
-                value={edtItem.title}
-                onChange={this.handleChangingTitle}
-                />
-              <InputText
-                longText
-                title="Description"
-                value={edtItem.descriptionInit}
-                onChange={this.handleChangingDesc}
-                />
-              <InputText
-                title="Type"
-                value={edtItem.type}
-                onChange={this.handleChangingType}
-                />
-              <InputText
-                required
-                title="Link preview image url"
-                value={edtItem.previewImg}
-                onChange={this.handleChangingPreviewImg}
-                />
-              <InputText
-                required
-                title="Link file url"
-                value={edtItem.assetURL}
-                onChange={this.handleChangingAssetUrl}
-              />
-            </ModalBody>
-
-            <ModalFooter>
-              <Button onClick={this.updateItem}><CheckIcon/> Save</Button>
-            </ModalFooter>
+              <ModalFooter>
+                <Button onClick={this.updateItem}><CheckIcon/> Save</Button>
+              </ModalFooter>
+            </ModalContent>
           </Modal>
         )}
 

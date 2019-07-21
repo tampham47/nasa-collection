@@ -12,23 +12,25 @@ const Main = styled.div`
   bottom: 0;
   left: 0;
   background-color: rgba(0,0,0,0.5);
+  z-index: 9;
 `;
 
 const Wrapper = styled.div`
-  width: calc(100% - 2em);
-  max-width: 36em;
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 1.5em;
-  background-color: white;
-  border-radius: 4px;
-  overflow: hidden;
+  max-width: calc(100% - 2em);
+
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const CloseButton = styled(ActionButton)`
   position: absolute;
+  z-index: 1;
+  background-color: transparent;
   right: 4px;
   top: 4px;
 `;
@@ -40,9 +42,16 @@ const ModalHeader = styled.h2`
 const ModalFooter = styled.div`
   margin-top: 1em;
 `;
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 1.5em;
+  border-radius: 4px;
+  overflow: hidden;
+`;
 const ModalBody = styled.div`
   margin-top: 2em;
   margin-bottom: 2em;
+  width: 600px;
 `;
 
 const Modal = ({ children, onClose }) => {
@@ -68,6 +77,7 @@ Modal.propTypes = {
 export {
   ModalHeader,
   ModalFooter,
+  ModalContent,
   ModalBody
 };
 
