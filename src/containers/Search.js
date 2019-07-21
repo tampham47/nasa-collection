@@ -22,8 +22,10 @@ const BackLink = styled(Link)`
   }
 `;
 const Title = styled.h1`
-  font-size: 2.5em;
   font-weight: 400;
+  @media screen and (min-width: 48em) {
+    font-size: 2.5em;
+  }
 `;
 const InputSearch = styled.input`
   width: 100%;

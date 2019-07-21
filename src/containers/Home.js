@@ -16,15 +16,20 @@ const Header = styled.header`
   margin-bottom: 5em;
 `;
 const HeaderWrp = styled.header`
-  display: flex;
-  align-items: center;
+  @media screen and (min-width: 48em) {
+    display: flex;
+    align-items: center;
+  }
 `;
 const Title = styled.h1`
-  flex: auto;
-  line-height: 1.2em;
-  font-size: 4em;
   color: gray;
-  margin: 0;
+  line-height: 1.2em;
+
+  @media screen and (min-width: 48em) {
+    margin: 0;
+    font-size: 4em;
+    flex: auto;
+  }
 `;
 const Body = styled.main``;
 const List = styled.div`

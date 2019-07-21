@@ -52,6 +52,7 @@ const ModalBody = styled.div`
   margin-top: 2em;
   margin-bottom: 2em;
   width: 600px;
+  max-width: calc(100%);
 `;
 
 const Modal = ({ children, onClose }) => {

@@ -13,11 +13,19 @@ import AddIcon from '../icons/add.svg';
 
 const Item = styled.div`
   display: inline-block;
+  width: calc(100% - 2em);
   margin-bottom: 4em;
-  width: calc(33.33% - 2em);
   margin-left: 1em;
   margin-right: 1em;
   overflow: hidden;
+
+  @media screen and (min-width: 48em) {
+    width: calc(50% - 2em);
+  }
+
+  @media screen and (min-width: 75em) {
+    width: calc(33.33% - 2em);
+  }
 `;
 const ImgShadow = styled.div`
   position: relative;
