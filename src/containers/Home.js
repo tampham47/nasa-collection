@@ -6,6 +6,7 @@ import CollectionItem from '../components/CollectionItem';
 import { Link, Button } from '../components/Button';
 import Container from '../components/Container';
 import InputText from '../components/InputText';
+import EmptyItem from '../components/EmptyItem';
 import Modal, { ModalHeader, ModalFooter, ModalBody, ModalContent } from '../components/Modal';
 
 import AddIcon from '../icons/add.svg';
@@ -156,9 +157,11 @@ export default class Home extends React.PureComponent {
           <Container>
             <HeaderWrp>
               <Title>NASA Collection</Title>
-              <Link to="/nasa-search">
-                <AddIcon />Add new item
-              </Link>
+              {!!collection.length && (
+                <Link to="/nasa-search">
+                  <AddIcon />Add new item
+                </Link>
+              )}
             </HeaderWrp>
           </Container>
         </Header>
@@ -175,10 +178,11 @@ export default class Home extends React.PureComponent {
                   onToggleFav={this.toggleFavItem}
                 />
               ))}
+
+              {!collection.length && (
+                <EmptyItem />
+              )}
             </List>
-            {!collection.length && (
-              <p>There are no collections yet, let find one!</p>
-            )}
           </Container>
         </Body>
 
