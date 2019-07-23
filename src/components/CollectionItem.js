@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 
 import ActionButton from './ActionButton';
 import Modal from './Modal';
@@ -212,7 +213,7 @@ class CollectionItem extends React.Component {
         <Body>
           <Row>
             <span>{model.center}</span>
-            <span>{model.date_created}</span>
+            <span>{format(model.date_created, 'DD MMM, YYYY')}</span>
           </Row>
           <Title>{model.title}</Title>
           <Content>{model.description}</Content>
