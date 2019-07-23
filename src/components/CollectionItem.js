@@ -60,11 +60,16 @@ const ImgWrapper = styled.div`
   border-radius: 4px;
   margin-bottom: 1.5em;
   overflow: hidden;
+  position: relative;
   cursor: pointer;
 
   img {
     width: 100%;
     display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 const Body = styled.div`
@@ -81,6 +86,13 @@ const Title = styled.h2`
   font-weight: 400;
   margin-top: .5em;
   margin-bottom: .5em;
+  line-height: 1.1;
+  max-height: 2.2em;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 `;
 const Content = styled.p`
   color: gray;

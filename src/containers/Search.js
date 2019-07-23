@@ -45,13 +45,19 @@ const List = styled.div`
   margin-right: -1em;
   margin-top: 2em;
 `;
+const ListBody = styled.div`
+  margin-left: 1em;
+  margin-right: 1em;
+`;
 
 const API_PATH = 'https://images-api.nasa.gov';
 const nomalizeCollection = (list) => {
   return list.map(i => ({
     ...i.data[0],
     id: i.data[0].nasa_id,
-    previewImg: i.links[0].href,
+    previewImg: i.links
+      ? i.links[0].href
+      : 'https://www.eluniversal.com.mx/sites/default/files/styles/f03-651x400/public/2019/03/12/nasa.jpg?itok=aTqjs0b1',
     type: i.data[0].media_type,
   })).slice(0, 24);
 }
@@ -68,12 +74,15 @@ export default class Search extends React.PureComponent {
     this.state = {
       searchQuery: '',
       collection: [],
+      checked: false,
+      fetching: false,
       arrayOfId: getListOfId(CollectionStorage.list()),
     };
 
     this.search = this.search.bind(this);
     this.fetchVideoById = this.fetchVideoById.bind(this);
     this.addAnItemToCollection = this.addAnItemToCollection.bind(this);
+    this.setInput = this.setInput.bind(this);
   }
 
   addAnItemToCollection(item) {
@@ -93,12 +102,16 @@ export default class Search extends React.PureComponent {
 
   search(e) {
     e.preventDefault();
-    const query = 'moon';
-    fetch(`${API_PATH}/search?q=${query}`)
+    const { searchQuery } = this.state;
+    this.setState({ fetching: true });
+
+    fetch(`${API_PATH}/search?q=${searchQuery}`)
       .then(res => res.json())
       .then(body => {
         this.setState({
           collection: nomalizeCollection(body.collection.items),
+          checked: true,
+          fetching: false,
         });
       })
   }
@@ -112,12 +125,15 @@ export default class Search extends React.PureComponent {
   setInput(e) {
     const { value } = e.target;
     this.setState({
+      checked: false,
       searchQuery: value,
+      collection: [],
     });
   }
 
   render() {
-    const { collection, arrayOfId } = this.state;
+    const { collection, arrayOfId, searchQuery, checked, fetching } = this.state;
+    const isShowHelper = checked && !collection.length;
 
     return (
       <Main>
@@ -128,9 +144,25 @@ export default class Search extends React.PureComponent {
           </BackLink>
           <Title>Search from NASA</Title>
           <form onSubmit={this.search}>
-            <InputSearch placeholder="Type something to search..." autoFocus />
+            <InputSearch
+              type="text"
+              autoFocus
+              placeholder="Type something to search..."
+              value={searchQuery}
+              onChange={this.setInput}
+            />
           </form>
           <List>
+            {isShowHelper && (
+              <ListBody>
+                <p>There are no results for your query, <b>{searchQuery}</b>.</p>
+              </ListBody>
+            )}
+            {fetching && (
+              <ListBody>
+                Loading...
+              </ListBody>
+            )}
             {collection.map((i, index) => (
               <CollectionItem
                 key={index}
