@@ -15,6 +15,7 @@ module.exports = {
     module: true,
     require: true,
     process: true,
+    Promise: true,
   },
 
   env: {

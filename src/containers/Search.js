@@ -86,11 +86,11 @@ export default class Search extends React.PureComponent {
   }
 
   addAnItemToCollection(item) {
-    this.fetchVideoById(item.id)
+    this.fetchVideoById(item.id, item)
       .then(body => {
         const newCollection = {
           ...item,
-          assetURL: body.href,
+          ...body,
         };
         CollectionStorage.add(newCollection);
 
@@ -116,10 +116,20 @@ export default class Search extends React.PureComponent {
       })
   }
 
-  fetchVideoById(id) {
+  fetchVideoById(id, item) {
+    if (item.assetURL) {
+      return Promise.resolve({
+        assetURL: item.assetURL,
+      });
+    }
+
     return fetch(`${API_PATH}/asset/${id}`)
       .then(res => res.json())
-      .then(body => body.collection.items[0]);
+      .then(body => {
+        return {
+          assetURL: body.collection.items[0].href,
+        };
+      });
   }
 
   setInput(e) {
@@ -169,6 +179,7 @@ export default class Search extends React.PureComponent {
                 model={i}
                 isAdded={checkInArray(arrayOfId, i.id)}
                 onAdd={this.addAnItemToCollection}
+                getMoreData={this.fetchVideoById}
               />
             ))}
           </List>

@@ -131,6 +131,7 @@ class CollectionItem extends React.PureComponent {
 
     this.state = {
       active: false,
+      model: props.model,
     };
 
     this.onAddLocal = this.onAddLocal.bind(this);
@@ -158,6 +159,20 @@ class CollectionItem extends React.PureComponent {
     this.props.onToggleFav(model);
   }
   openView() {
+    if (this.props.getMoreData) {
+      const { model } = this.state;
+      this.props.getMoreData(model.id, model).then(body => {
+        this.setState({
+          model: {
+            ...model,
+            ...body,
+          },
+          active: true,
+        });
+      });
+      return;
+    }
+
     this.setState({
       active: true,
     });
@@ -169,8 +184,8 @@ class CollectionItem extends React.PureComponent {
   }
 
   render() {
-    const { model, onAdd, isAdded } = this.props;
-    const { active } = this.state;
+    const { onAdd, isAdded } = this.props;
+    const { active, model } = this.state;
 
     return (
       <Item>
@@ -241,6 +256,7 @@ CollectionItem.propTypes = {
   onRemove: PropTypes.func,
   onToggleFav: PropTypes.func,
   isAdded: PropTypes.bool,
+  getMoreData: PropTypes.func,
   model: PropTypes.shape({
     fav: PropTypes.bool,
     previewImg: PropTypes.string,
