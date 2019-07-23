@@ -120,6 +120,11 @@ const AddToBtn = styled(ActionButton)`
 `;
 const IMG = styled.img`
   min-width: 200px;
+  min-height: 60px;
+  max-height: calc(${props => props.innerHeight} - 2em);
+  max-width: calc(${props => props.innerWidth} - 2em);
+  border-radius: 3px;
+  background-color: rgba(0,0,0,0.1);
 `;
 const Video = styled.video`
   outline: none;
@@ -133,6 +138,8 @@ class CollectionItem extends React.Component {
     this.state = {
       active: false,
       model: props.model,
+      innerWidth: '100px',
+      innerHeight: '100px',
     };
 
     this.onAddLocal = this.onAddLocal.bind(this);
@@ -141,6 +148,13 @@ class CollectionItem extends React.Component {
     this.onToggleFavLocal = this.onToggleFavLocal.bind(this);
     this.openView = this.openView.bind(this);
     this.closeView = this.closeView.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      innerWidth: `${window.innerWidth}px`,
+      innerHeight: `${window.innerHeight}px`,
+    });
   }
 
   shouldComponentUpdate(nextProps) {
@@ -198,7 +212,7 @@ class CollectionItem extends React.Component {
 
   render() {
     const { onAdd, isAdded } = this.props;
-    const { active, model } = this.state;
+    const { active, model, innerWidth, innerHeight } = this.state;
 
     return (
       <Item>
@@ -254,7 +268,11 @@ class CollectionItem extends React.Component {
                 Your browser does not support the video tag.
               </Video>
             ) : (
-              <IMG src={model.assetURL} alt={model.title} />
+              <IMG src={model.assetURL}
+                alt={model.title}
+                innerHeight={innerHeight}
+                innerWidth={innerWidth}
+              />
             )}
           </Modal>
         )}

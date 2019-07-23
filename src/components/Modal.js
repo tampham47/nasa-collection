@@ -21,10 +21,6 @@ const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: calc(100% - 2em);
-
-  & img {
-    max-width: 100%;
-  }
 `;
 
 const CloseButton = styled(ActionButton)`
