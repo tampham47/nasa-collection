@@ -125,7 +125,7 @@ const Video = styled.video`
   width: 100%;
 `;
 
-class CollectionItem extends React.PureComponent {
+class CollectionItem extends React.Component {
   constructor(props) {
     super(props);
 
@@ -142,6 +142,18 @@ class CollectionItem extends React.PureComponent {
     this.closeView = this.closeView.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (this.props.model !== nextProps.model) {
+      const { model } = this.state;
+      this.setState({
+        model: {
+          ...model,
+          ...nextProps.model,
+        },
+      });
+    }
+    return true;
+  }
   onAddLocal() {
     const { model } = this.props;
     this.props.onAdd(model);
